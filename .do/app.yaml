@@ -88,10 +88,10 @@ services:
         type: SECRET
         # Value: Add manually (optional)
       
-      # MCP Gateway
+      # MCP Gateway - Auto-populated with mcp-gateway service URL
       - key: MCP_GATEWAY_URL
         scope: RUN_TIME
-        value: http://165.232.190.215:8811
+        value: ${mcp-gateway.PUBLIC_URL}
       
       # CORS - Update after frontend deployment
       - key: CORS_ORIGINS
@@ -177,44 +177,53 @@ static_sites:
         - Authorization
         - X-Requested-With
 
-# Optional: MCP Gateway Service (if you want to self-host)
-# Uncomment if you want to deploy MCP gateway on DO
-#  - name: mcp-gateway
-#    github:
-#      repo: BishalJena/CropGPT
-#      branch: main
-#      deploy_on_push: true
-#    
-#    source_dir: /fs-gate
-#    
-#    build_command: npm install
-#    
-#    run_command: npm start
-#    
-#    http_port: 10000
-#    
-#    instance_count: 1
-#    instance_size_slug: basic-xs
-#    
-#    routes:
-#      - path: /mcp
-#    
-#    envs:
-#      - key: NODE_ENV
-#        scope: RUN_TIME
-#        value: production
-#      
-#      - key: PORT
-#        scope: RUN_TIME
-#        value: "10000"
-#      
-#      - key: DATAGOVIN_API_KEY
-#        scope: RUN_TIME
-#        type: SECRET
-#      
-#      - key: EXA_API_KEY
-#        scope: RUN_TIME
-#        type: SECRET
+  # MCP Gateway Service (Agricultural Tools)
+  - name: mcp-gateway
+    github:
+      repo: BishalJena/CropGPT
+      branch: main
+      deploy_on_push: true
+    
+    source_dir: /fs-gate
+    
+    build_command: npm install
+    
+    run_command: npm start
+    
+    http_port: 10000
+    
+    instance_count: 1
+    instance_size_slug: basic-xs  # $12/month
+    
+    health_check:
+      http_path: /health
+      initial_delay_seconds: 30
+      period_seconds: 10
+      timeout_seconds: 5
+      success_threshold: 1
+      failure_threshold: 3
+    
+    routes:
+      - path: /mcp
+    
+    envs:
+      - key: NODE_ENV
+        scope: RUN_TIME
+        value: production
+      
+      - key: PORT
+        scope: RUN_TIME
+        value: "10000"
+      
+      - key: DATAGOVIN_API_KEY
+        scope: RUN_TIME
+        type: SECRET
+        # Value: Add manually in dashboard
+      
+      - key: EXA_API_KEY
+        scope: RUN_TIME
+        type: SECRET
+        # Value: Add manually in dashboard
 
 # Databases (Optional - creates managed databases)
 # Uncomment if you want DO to create databases for you
