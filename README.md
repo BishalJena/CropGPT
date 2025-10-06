@@ -14,6 +14,8 @@
 - **🥇 Docker MCP Track**: 6 custom agricultural MCP tools with intelligent orchestration
 - **📊 Impact**: ₹6+ lakh cost savings, 46.5% yield improvements, 2,847 farmers reached
 
+📋 **[View Complete Feature/Impact/Tool Usage Details →](HACKATHON.md)**
+
 ---
 
 ## 🚀 Revolutionary Features

@@ -396,7 +396,7 @@ const pestIdentifierHandler = async (params: any) => {
         const cropPests = pestDatabase[crop?.toLowerCase()] || [];
         
         // Match symptoms to identify pest
-        let identifiedPest = null;
+        let identifiedPest: PestData | null = null;
         let confidence = 0;
 
         if (symptoms) {

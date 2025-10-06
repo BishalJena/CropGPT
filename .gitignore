@@ -86,3 +86,15 @@ android-sdk/ -e
 *.env
 *.env.*
 Vestigial_Files_Report.md
+# Deployment
+.vercel
+.render
+dist/
+build/
+
+# Logs
+*.log
+logs/
+
+# Production environment files (keep .env.example)
+.env.production
