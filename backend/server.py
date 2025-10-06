@@ -2213,12 +2213,19 @@ app.add_middleware(
     allowed_hosts=["localhost", "127.0.0.1", "*.agricultural-ai.com", "*.vercel.app", "*.onrender.com"]
 )
 
+# CORS Configuration - Allow Vercel frontend
+cors_origins = os.environ.get('CORS_ORIGINS', '*').split(',')
+# Always allow your Vercel domain
+if 'https://crop-gpt.vercel.app' not in cors_origins and '*' not in cors_origins:
+    cors_origins.append('https://crop-gpt.vercel.app')
+
 app.add_middleware(
     CORSMiddleware,
     allow_credentials=True,
-    allow_origins=os.environ.get('CORS_ORIGINS', '*').split(','),
-    allow_methods=["*"],
+    allow_origins=cors_origins,
+    allow_methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allow_headers=["*"],
+    expose_headers=["*"],
 )
 
 @app.on_event("shutdown")
